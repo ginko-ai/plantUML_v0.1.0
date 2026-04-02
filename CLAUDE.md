@@ -2,7 +2,7 @@
 
 **Version:** v0.1.0
 **Updated:** 2026-04-02
-**Tag:** (none yet)
+**Tag:** v0.1.0-bootstrap
 **Status:** Active — PlantUML reference and exploration repo
 
 ## Quick Reference
@@ -10,7 +10,7 @@
 | Key | Value |
 |-----|-------|
 | Repository | plantUML_v0.1.0 |
-| Current Tag | (none) |
+| Current Tag | v0.1.0-bootstrap |
 | Language | PlantUML, Python |
 | Platform | Windows 11 |
 
@@ -47,4 +47,5 @@ Reference repository for PlantUML diagram syntax — UML and non-UML formats. Co
 
 | Version | Date | Changes |
 |---------|------|---------|
+| v0.1.0-bootstrap | 2026-04-02 | Milestone infrastructure, YAML .yaml extensions, DR ontology, plantuml.jar |
 | v0.1.0 | 2025-01-04 | Project bootstrap — initial PlantUML examples and utilities |
