@@ -1,0 +1,138 @@
+# Ontology for Intraday DR Trading
+@startyaml
+Classes:
+  Instrument:
+    attributes:
+      instrument_id: string
+      name: string
+
+  Session:
+    attributes:
+      session_id: string
+      session_type: [ADR, ODR, RDR, ADR_ODR, ODR_RDR, RDR_ADR]
+      date: string
+      start_time: string
+      end_time: string
+      instrument: Instrument
+
+  DRBlock:
+    attributes:
+      drblock_id: string
+      type: [RDR, ADR, ODR]
+      start_time: string
+      end_time: string
+      high_price: float
+      low_price: float
+      session: Session
+
+  ADRBlock:
+    parent: DRBlock
+    attributes:
+      adrblock_id: string
+      start_time: string
+      end_time: string
+      session_dates: [string]
+      valid_until: string
+      trading_day: string
+      high_price: float
+      low_price: float
+
+  ODRBlock:
+    parent: DRBlock
+    attributes:
+      odrblock_id: string
+      start_time: string
+      end_time: string
+      session_date: string
+      valid_until: string
+      high_price: float
+      low_price: float
+
+  RDRBlock:
+    parent: DRBlock
+    attributes:
+      odrblock_id: string
+      start_time: string
+      end_time: string
+      session_date: string
+      valid_until: string
+      high_price: float
+      low_price: float
+
+
+  IDRCycle:
+    attributes:
+      cycle_id: string
+      blocks: [DRBlock] # ADRBlock, ODRBlock, RDRBlock
+      trading_day: string
+
+  ConfirmationEvent:
+    attributes:
+      event_id: string
+      session: Session
+      direction: [long, short]
+      time: string
+      confirmation_line: [DR high, DR low]
+      probability: float
+
+  TrueSession:
+    attributes:
+      session_id: string
+      is_true: boolean
+      confirmation: ConfirmationEvent
+
+  TimeBucket:
+    attributes:
+      bucket_id: string
+      session: Session
+      start_time: string
+      end_time: string
+
+  Retracement:
+    attributes:
+      retracement_id: string
+      session: Session
+      value: float
+      time_bucket: TimeBucket
+      instrument: Instrument
+
+  Extension:
+    attributes:
+      extension_id: string
+      session: Session
+      value: float
+      time_bucket: TimeBucket
+      instrument: Instrument
+
+  Trade:
+    attributes:
+      trade_id: string
+      confirmation_event: ConfirmationEvent
+      entry_time: string
+      stop_level: string
+      target_level: string
+      risk_reward_ratio: float
+
+Enumerations:
+  session_type: [ADR, ODR, RDR, ADR_ODR, ODR_RDR, RDR_ADR]
+  direction: [long, short]
+  confirmation_line: [DR high, DR low]
+  instrument: [ES, CL, NQ]
+  is_true: [true, false]
+
+ObjectProperties:
+  instrument_of_session: Session → Instrument
+  drblock_of_session: DRBlock → Session
+  adrblock_of_session: ADRBlock → Session
+  odrblock_of_session: ODRBlock → Session
+  blocks_of_cycle: IDRCycle → DRBlock
+  confirmation_for_session: ConfirmationEvent → Session
+  retracement_in_time_bucket: Retracement → TimeBucket
+  extension_in_time_bucket: Extension → TimeBucket
+  confirmation_of_trade: Trade → ConfirmationEvent
+
+Constraints:
+  - Each DRBlock must be part of one Session
+  - ADRBlock and ODRBlock must have specific start/end times and can cross dates
+  - Trade must reference a ConfirmationEvent
+@endyaml

@@ -2,7 +2,7 @@
 dr:
 	time: date:time
 	inter_day:
-		drc:
+		drc_id:
 			time:
 				-ydr
 				-mdr
@@ -14,6 +14,7 @@ dr:
 					-vib
 					-dib
 			price:
+				high:
 				upper_wick:
 					-dr
 					-idr
@@ -21,9 +22,10 @@ dr:
 					sentiment:
 						-long
 						-short
-				lower_ick:
+				lower_wick:
 					-idr
 					-dr
+				low:
 
 	intra_day:
 		inter_session:
